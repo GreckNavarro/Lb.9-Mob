@@ -5,28 +5,25 @@ using UnityEngine;
 public class StaticObjectPooling : MonoBehaviour
 {
     public List<GameObject> objectPool;
-    public GameObject[] objects;
+    public GameObject prefabGO;
+    public float distancePlatform = 3.0f;
 
     public int maxQuantity;
 
     private void Start()
     {
-
+        InstantiateObjects();
     }
     public void InstantiateObjects()
     {
         GameObject tmp;
-        for (int i = 0; i < maxQuantity; ++i)
+        for (int i = 1; i <= maxQuantity; ++i)
         {
-            int randomindex = Random.Range(0, objects.Length);
-            tmp = Instantiate(objects[randomindex], transform.position, transform.rotation);
-            /*
-            Configurar un atributo de la clase del prefab
-            tmp.GetComponent<ClaseBase>().SetObjectPool(this);
-            */
+            tmp = Instantiate(prefabGO, new Vector3(Random.Range(-2.7f, 2.7f), (transform.position.y + distancePlatform * i), transform.position.z), transform.rotation);
+            tmp.GetComponent<PlatformController>().SetObjectPooling(this);
             objectPool.Add(tmp);
             tmp.transform.SetParent(this.transform);
-            tmp.SetActive(false);
+            
         }
 
 
@@ -37,11 +34,9 @@ public class StaticObjectPooling : MonoBehaviour
         {
             GameObject tmp = objectPool[0];
             objectPool.Remove(tmp);
+            tmp.GetComponent<PlatformController>().InitVariables();
+            Debug.Log("Ha sido activado");
             tmp.SetActive(true);
-            /*
-            Inicializar las variables de tu clase
-            tmp.GetComponent<ClaseBase>().InitVariables();
-            */
 
         }
         else

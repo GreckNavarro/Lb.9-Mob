@@ -16,19 +16,13 @@ public class DinamicObjectPooling : MonoBehaviour
             tmp = objectPool[0];
             objectPool.RemoveAt(0);
             tmp.SetActive(true);
-            /*
-            Inicializar las variables de tu clase
-            tmp.GetComponent<ClaseBasePrefab>().InitVariables(inicialposition.transform);
-            */
+            tmp.GetComponent<PlatformController>().InitVariables();
         }
         else
         {
             tmp = Instantiate(objectPrefab, inicialposition.transform.position, transform.rotation);
-            /*
-            Utilizar las funciones de la clase base
-            tmp.GetComponent<ClaseBasePrefab>().SetObjectPool(this);
-            tmp.GetComponent<ClaseBasePrefab>().InitVariables(inicialposition.transform);
-            */
+            //tmp.GetComponent<PlatformController>().SetObjectPooling(this);
+           // tmp.GetComponent<PlatformController>().InitVariables();
             tmp.transform.SetParent(this.transform);
             tmp.SetActive(true);
         }
